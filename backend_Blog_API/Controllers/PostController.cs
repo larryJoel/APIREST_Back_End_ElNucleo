@@ -1,6 +1,9 @@
 ﻿using backend_Blog_API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace backend_Blog_API.Controllers
 {
@@ -87,6 +90,97 @@ namespace backend_Blog_API.Controllers
 
         }
 
+        [HttpGet]
+        [Route("Likes/{id:int}")]
+        public IActionResult Likes(int id)
+        {
+            var blog = _context.Posts.Find(id);
+            if(blog == null)
+            {
+                return BadRequest("No se encontró el Blog");
+            }
+            var cantLikes = blog.Likes;
+            int likes = int.Parse(cantLikes.ToString());
+            int nuevoTotalLikes = ActualizarLikesPost(id, likes);
+            return Ok("Actualizados los Likes");
+        }
+
+        private int ActualizarLikesPost(int postId, int likes)
+        {
+            int nuevoTotalLikes = likes;
+            try
+            {
+                nuevoTotalLikes = _context.Database.ExecuteSqlRaw("exec spActualizarLikesPost @PostId", new SqlParameter("@PostID", postId));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return nuevoTotalLikes;
+        }
+
+        [HttpGet]
+        [Route("visitas/{id:int}")]
+        public IActionResult Visitas(int id)
+        {
+            var blog = _context.Posts.Find(id);
+            if (blog == null)
+            {
+                return BadRequest("No se encontró el Blog");
+            }
+            var cantVisitas = blog.Visitas;
+            int visitas = int.Parse(cantVisitas.ToString());
+            int nuevaVisita = ActualizarVisitasPost(id, visitas);
+            return Ok("Visitas actualizadas");
+        }
+
+        private int ActualizarVisitasPost(int id, int visitas) 
+        {
+            int nuevoTotalVisitas = visitas;
+            try
+            {
+                nuevoTotalVisitas = _context.Database.ExecuteSqlRaw("exec spActualizarVisitasPost @PostId", new SqlParameter("@PostID", id));
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return nuevoTotalVisitas;
+        }
+
+        [HttpGet]
+        [Route("Comentarios/{id:int}")]
+        public IActionResult Comentarios(int id)
+        {
+            var blog = _context.Posts.Find(id);
+            if (blog == null)
+            {
+                return BadRequest("No se encontró el Blog");
+            }
+            var cantComentarios = blog.CantComentarios;
+            int comentario = int.Parse(cantComentarios.ToString());
+            int nuvoComentario = ActualiarComentariosPost(id, comentario);
+            return Ok("Comentarios actualziados");
+        }
+
+        private int ActualiarComentariosPost(int id, int comentario)
+        {
+            int nuevoTotalComentario = comentario;
+            try
+            {
+                nuevoTotalComentario = _context.Database.ExecuteSqlRaw("exec spActualizarComentariosPost @PostId", new SqlParameter("@PostID", id));
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine("Error: " + ex.Message);
+            }
+
+            return nuevoTotalComentario;
+
+        }
 
     }
 }
