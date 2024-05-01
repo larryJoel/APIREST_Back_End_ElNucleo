@@ -45,7 +45,7 @@ public partial class BlogElNucleoContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK__Comentar__3214EC07425CE041");
 
-            entity.Property(e => e.Comentario1).HasColumnName("Comentario");
+            entity.Property(e => e.Comentar).HasColumnName("Comentar");
             entity.Property(e => e.CreadoEn).HasColumnType("datetime");
             entity.Property(e => e.EditadoEn).HasColumnType("datetime");
             entity.Property(e => e.Email)
@@ -54,7 +54,7 @@ public partial class BlogElNucleoContext : DbContext
             entity.Property(e => e.Nombre)
                 .HasMaxLength(500)
                 .IsUnicode(false);
-            entity.Property(e => e.PostId).HasColumnName("Post_Id");
+            entity.Property(e => e.PostId).HasColumnName("PostId");
 
             entity.HasOne(d => d.Post).WithMany(p => p.Comentarios)
                 .HasForeignKey(d => d.PostId)
@@ -71,7 +71,7 @@ public partial class BlogElNucleoContext : DbContext
                 .HasMaxLength(500)
                 .IsUnicode(false);
             entity.Property(e => e.CantComentarios).HasColumnName("Cant_Comentarios");
-            entity.Property(e => e.CategoriaId).HasColumnName("Categoria_Id");
+            entity.Property(e => e.CategoriaId).HasColumnName("CategoriaId");
             entity.Property(e => e.CreadoEn).HasColumnType("datetime");
             entity.Property(e => e.EditadoEn).HasColumnType("datetime");
             entity.Property(e => e.Status)

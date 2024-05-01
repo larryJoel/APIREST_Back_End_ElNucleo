@@ -78,7 +78,7 @@ namespace backend_Blog_API.Controllers
             {
                 res.Nombre = comentario.Nombre;
                 res.Email = comentario.Email;
-                res.Comentario1 = comentario.Comentario1;
+                res.Comentar = comentario.Comentar;
                 res.PostId = comentario.PostId;
                 res.CreadoEn = comentario.CreadoEn;
                 res.EditadoEn = comentario.EditadoEn;

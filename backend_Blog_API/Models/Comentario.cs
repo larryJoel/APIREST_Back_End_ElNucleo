@@ -11,7 +11,7 @@ public partial class Comentario
 
     public string? Email { get; set; }
 
-    public string? Comentario1 { get; set; }
+    public string? Comentar { get; set; }
 
     public int? PostId { get; set; }
 
